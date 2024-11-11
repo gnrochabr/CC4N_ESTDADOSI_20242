@@ -152,4 +152,8 @@ int main() {
     printf("\nTempo de processamento (MSD): %.6f segundos\n", time_msd);
 
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 40f38d3 (teste)

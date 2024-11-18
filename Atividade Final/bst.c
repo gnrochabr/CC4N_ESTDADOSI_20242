@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct Node* insert(struct Node* root, int data); // Function declaration
+struct Node* createNode(int data);
+void inOrderTraversal(struct Node* root);
+void destroyTree(struct Node* root);
+void printTree(struct Node* root, int space);
+
+#define COUNT 10
+
 // Main function
 int main()
 {
+
     int arr[] = {5, 2, 8, 1, 3};
     int n = sizeof(arr) / sizeof(arr[0]);
 
@@ -24,6 +33,9 @@ int main()
     printf("Sorted array: ");
     inOrderTraversal(root);
     printf("\n");
+
+    printf("BST structure:\n");
+    printTree(root, 0);
 
     // Free memory after use
     destroyTree(root);
@@ -89,4 +101,22 @@ void destroyTree(struct Node* root)
         destroyTree(root->right);
         free(root);  // Free memory of the node
     }
+}
+
+// Function to print the tree structure
+void printTree(struct Node* root, int space)
+{
+    if (root == NULL)
+        return;
+
+    space += COUNT;
+
+    printTree(root->right, space);
+
+    printf("\n");
+    for (int i = COUNT; i < space; i++)
+        printf(" ");
+    printf("%d\n", root->data);
+
+    printTree(root->left, space);
 }

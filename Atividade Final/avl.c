@@ -1,26 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function prototypes
-void avl_sorting(int data);
-struct Node* insert(struct Node* node, int data);
-struct Node* rightRotate(struct Node* y);
-struct Node* leftRotate(struct Node* x);
-int getHeight(struct Node* node);
-int getBalance(struct Node* node);
-
-
-void avl_sorting 
->>>>>>> 40f38d3 (teste)
-
-// Structure of a node in AVL tree
-struct Node
+// Structure of a node in the AVL tree
+struct Node 
 {
     int data;
     struct Node* left;
     struct Node* right;
     int height;
 };
+
+// Functions Prototype
+struct Node* insert(struct Node* node, int data);
+struct Node* rightRotate(struct Node* y);
+struct Node* leftRotate(struct Node* x);
+int getHeight(struct Node* node);
+int getBalance(struct Node* node);
+void inOrderTraversal(struct Node* root);
+void printAVLTree(struct Node* root, int space);
+void freeAVLTree(struct Node* root);
+
+// Number of spaces for each level of indentation
+#define COUNT 5
 
 int main()
 {
@@ -39,6 +40,12 @@ int main()
     inOrderTraversal(root);
     printf("\n");
 
+    // Print the AVL tree
+    printf("AVL Tree structure:\n");
+    printAVLTree(root, 0);
+
+
+    freeAVLTree(root);
     return 0;
 }
 
@@ -166,4 +173,38 @@ int getBalance(struct Node* node)
         return 0;
     }
     return getHeight(node->left) - getHeight(node->right);
+}
+
+// Prints the AVL tree structure with hierarchical indentation
+void printAVLTree(struct Node* root, int space) 
+{
+    if (root == NULL) {
+        return;
+    }
+
+    // Increase distance between levels
+    space += COUNT;
+
+    // Process right child first
+    printAVLTree(root->right, space);
+
+    // Print current node after padding with spaces
+    printf("\n");
+    for (int i = COUNT; i < space; i++) {
+        printf(" ");
+    }
+    printf("%d\n", root->data);
+
+    // Process left child
+    printAVLTree(root->left, space);
+}
+
+void freeAVLTree(struct Node* root)
+{
+    if (root == NULL) {
+        return;
+    }
+    freeAVLTree(root->left);
+    freeAVLTree(root->right);
+    free(root);
 }

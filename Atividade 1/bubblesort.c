@@ -1,34 +1,49 @@
 #include <stdio.h>
 
-// Code to make bubble sort ordenation
+// Function that implements Bubble Sort
+void bubble_sort(int *array, int size);
+void print_array(int *array, int size);
 
-void bubble_sort (int *vetor, int tam);
-
-int main (void)
+int main()
 {
-    int vetor[10] = {5, 3, 2, 7, 6, 8, 1, 4, 0, 9};
-    bubble_sort(vetor, 10);
+    int array[10] = {5, 3, 2, 7, 6, 8, 1, 4, 0, 9};
+    
+    bubble_sort(array, 10);  // Sorting the array
+    print_array(array, 10);   // Printing the sorted array
 
     return 0;
 }
 
-void bubble_sort (int *vetor, int tam)
+// Function Bubble Sort
+void bubble_sort(int *array, int size)
 {
-    for (int i = 0; i < tam; i++)
+    int swapped;  // Flag to check if a swap has occurred
+    for (int i = 0; i < size - 1; i++)
     {
-        for (int j = 0; j < tam - 1; j++)
+        swapped = 0;  // Reset the flag at the start of each iteration
+        for (int j = 0; j < size - 1 - i; j++)
         {
-            if (vetor[j] > vetor[j + 1])
+            if (array[j] > array[j + 1])
             {
-                int aux = vetor[j];
-                vetor[j] = vetor[j + 1];
-                vetor[j + 1] = aux;
+                // Swap the elements
+                int temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+                swapped = 1;  // Mark that a swap occurred
             }
         }
+        // If no swaps occurred, the array is already sorted
+        if (swapped == 0)
+            break;
     }
-    for (int i = 0; i < tam; i++)
+}
+
+// Function to print the array
+void print_array(int *array, int size)
+{
+    for (int i = 0; i < size; i++)
     {
-        printf("%d ", vetor[i]);    
+        printf("%d ", array[i]);
     }
-    
+    printf("\n");
 }

@@ -1,53 +1,63 @@
-// This code is the implementation of the mergesort algorithm in C language.
-
 #include <stdio.h>
 #include <stdlib.h>
 
 // Function prototypes
-void merge_sort(int *v, int n);
-void merge(int *v, int *w, int left, int mid, int right);
+void merge_sort(int *arr, int n);
+void merge(int *arr, int *temp_arr, int left, int mid, int right);
 
 int main(void)
 {
-    int v[] = {5, 3, 2, 4, 7, 1, 0, 6};
+    int arr[] = {5, 3, 2, 4, 7, 1, 0, 6};
     int n = 8;
     int i;
-    merge_sort(v, n);
     
-    // Imprimir o array ordenado
+    merge_sort(arr, n);
+    
+    // Print the sorted array
     for (i = 0; i < n; i++)
-        printf("%d ", v[i]);
+        printf("%d ", arr[i]);
     printf("\n");
 
     return 0;
 }
 
-void merge(int *v, int *w, int left, int mid, int right)
+// Merge function to merge two sorted halves
+void merge(int *arr, int *temp_arr, int left, int mid, int right)
 {
     int i = left, j = mid + 1, k = left;
+    
+    // Merge the two halves
     while (i <= mid && j <= right)
     {
-        if (v[i] <= v[j])
-            w[k++] = v[i++];
+        if (arr[i] <= arr[j])
+            temp_arr[k++] = arr[i++];
         else
-            w[k++] = v[j++];
+            temp_arr[k++] = arr[j++];
     }
+
+    // Copy remaining elements from the left half (if any)
     while (i <= mid)
-        w[k++] = v[i++];
+        temp_arr[k++] = arr[i++];
+    
+    // Copy remaining elements from the right half (if any)
     while (j <= right)
-        w[k++] = v[j++];
+        temp_arr[k++] = arr[j++];
+    
+    // Copy the merged result back into the original array
     for (i = left; i <= right; i++)
-        v[i] = w[i];
+        arr[i] = temp_arr[i];
 }
 
-void merge_sort(int *v, int n)
+// Merge Sort function (iterative implementation)
+void merge_sort(int *arr, int n)
 {
-    if (n < 2)
-        return;
+    if (arr == NULL || n < 2)
+        return; // Avoid unnecessary work if the array is empty or has only one element
 
     int i, j, k, m;
-    int *w;
-    w = (int *)malloc(n * sizeof(int));
+    int *temp_arr = (int *)malloc(n * sizeof(int));
+    
+    // Bottom-up iterative merge sort
     for (i = 1; i < n; i *= 2)
     {
         for (j = 0; j < n - i; j += 2 * i)
@@ -56,8 +66,10 @@ void merge_sort(int *v, int n)
             k = j + 2 * i - 1;
             if (k >= n)
                 k = n - 1;
-            merge(v, w, j, m, k);
+            merge(arr, temp_arr, j, m, k);
         }
     }
-    free(w);
+    
+    // Free the memory used by the temporary array
+    free(temp_arr);
 }
